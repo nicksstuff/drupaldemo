@@ -20,21 +20,18 @@ image:
 ## Installation Profile
 ## ref: https://github.com/bitnami/bitnami-docker-drupal#configuration
 ##
-
-namespace: default
-
 drupalProfile: standard
 
 ## User of the application
 ## ref: https://github.com/bitnami/bitnami-docker-drupal#configuration
 ##
-drupalUsername: admin
+drupalUsername: user
 
 ## Application password
 ## Defaults to a random 10-character alphanumeric string if not set
 ## ref: https://github.com/bitnami/bitnami-docker-drupal#configuration
 ##
-drupalPassword: admin
+# drupalPassword:
 
 ## Admin email
 ## ref: https://github.com/bitnami/bitnami-docker-drupal#configuration
@@ -50,16 +47,16 @@ allowEmptyPassword: "yes"
 ##
 externalDatabase:
   ## Database host
-  host: 10.0.0.199
-  port: 3306
+  # host:
+
   ## Database user
-  user: drupal
+  # user: bn_drupal
 
   ## Database password
-  password: drupal
+  # password:
 
   ## Database name
-  database:
+  # database: bitnami_drupal
 
 ##
 ## MariaDB chart configuration
@@ -69,17 +66,17 @@ mariadb:
   enabled: true
   ## Disable MariaDB replication
   replication:
-    enabled: true
+    enabled: false
 
   ## Create a database and a database user
   ## ref: https://github.com/bitnami/bitnami-docker-mariadb/blob/master/README.md#creating-a-database-user-on-first-run
   ##
   db:
-    name: drupal
-    user: drupal
+    name: bitnami_drupal
+    user: bn_drupal
     ## If the password is not specified, mariadb will generates a random password
     ##
-    password: drupal
+    # password:
 
   ## MariaDB admin password
   ## ref: https://github.com/bitnami/bitnami-docker-mariadb/blob/master/README.md#setting-the-root-password-on-first-run

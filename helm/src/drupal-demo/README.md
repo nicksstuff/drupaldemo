@@ -5,7 +5,7 @@
 ## TL;DR;
 
 ```console
-$ helm install stable/drupal
+$ helm install test/drupal-demo --name my-release --namespace default 
 ```
 
 ## Introduction
