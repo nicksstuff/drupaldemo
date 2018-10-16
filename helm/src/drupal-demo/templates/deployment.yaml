@@ -258,8 +258,8 @@ spec:
   {{- end }}
   containers:
     - name: mariadb-test
-        image: "{{ .Values.image.registry }}/{{ .Values.image.dbrepository }}:{{ .Values.image.dbtag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+      image: "{{ .Values.image.registry }}/{{ .Values.image.dbrepository }}:{{ .Values.image.dbtag }}"
+      imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
       command: ["/tools/bats/bats", "-t", "/tests/run.sh"]
       env:
         - name: MARIADB_ROOT_PASSWORD

@@ -1,7 +1,6 @@
 ---
 # Source: drupal-demo/templates/deployment.yaml
 ---
-# Source: drupal/charts/mariadb/templates/secrets.yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -19,7 +18,6 @@ data:
   mariadb-replication-password: "cGFzc3cwcmQ="
 
 ---
-# Source: drupal/templates/secrets.yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -36,7 +34,6 @@ data:
 
 
 ---
-# Source: drupal/charts/mariadb/templates/initialization-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -55,8 +52,6 @@ data:
 
 
 ---
-# Source: drupal/charts/mariadb/templates/master-configmap.yaml
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -93,8 +88,6 @@ data:
     socket=/opt/bitnami/mariadb/tmp/mysql.sock
     pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
 ---
-# Source: drupal/charts/mariadb/templates/slave-configmap.yaml
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -132,7 +125,6 @@ data:
     pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
 
 ---
-# Source: drupal/charts/mariadb/templates/tests.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -144,7 +136,6 @@ data:
     }
 
 ---
-# Source: drupal/templates/apache-pvc.yaml
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -161,7 +152,6 @@ spec:
     requests:
       storage: "1Gi"
 ---
-# Source: drupal/templates/drupal-pvc.yaml
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -178,7 +168,6 @@ spec:
     requests:
       storage: "8Gi"
 ---
-# Source: drupal/charts/mariadb/templates/master-svc.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -201,8 +190,6 @@ spec:
     release: "cool-drupal-demo"
 
 ---
-# Source: drupal/charts/mariadb/templates/slave-svc.yaml
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -225,7 +212,6 @@ spec:
     release: "cool-drupal-demo"
 
 ---
-# Source: drupal/templates/svc.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -248,7 +234,6 @@ spec:
     app: cool-drupal-demo-drupal
 
 ---
-# Source: drupal/charts/mariadb/templates/test-runner.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -269,12 +254,10 @@ spec:
       volumeMounts:
       - mountPath: /tools
         name: tools
-  imagePullSecrets:
-    - name: sec
   containers:
     - name: mariadb-test
-        image: "docker.io/.Values.image.db-repository:10.1.36-debian-9"
-        imagePullPolicy: "IfNotPresent"
+      image: "docker.io/bitnami/mariadb:10.1.36-debian-9"
+      imagePullPolicy: "IfNotPresent"
       command: ["/tools/bats/bats", "-t", "/tests/run.sh"]
       env:
         - name: MARIADB_ROOT_PASSWORD
@@ -297,7 +280,6 @@ spec:
   restartPolicy: Never
 
 ---
-# Source: drupal/templates/deployment.yaml
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -320,8 +302,6 @@ spec:
         chart: drupal-2.1.0
         release: "cool-drupal-demo"
     spec:
-      imagePullSecrets:
-        - name: sec
       containers:
       - name: cool-drupal-demo-drupal
         image: "docker.io/bitnami/drupal:8.6.1-debian-9"
@@ -389,7 +369,6 @@ spec:
           claimName: cool-drupal-demo-drupal-apache
 
 ---
-# Source: drupal/charts/mariadb/templates/master-statefulset.yaml
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
@@ -431,11 +410,9 @@ spec:
                 matchLabels:
                   app: "mariadb"
                   release: "cool-drupal-demo"
-      imagePullSecrets:
-        - name: sec
       containers:
       - name: "mariadb"
-        image: "docker.io/:10.1.36-debian-9"
+        image: "docker.io/bitnami/mariadb:10.1.36-debian-9"
         imagePullPolicy: "IfNotPresent"
         env:
         - name: MARIADB_ROOT_PASSWORD
@@ -515,8 +492,6 @@ spec:
             storage: "8Gi"
 
 ---
-# Source: drupal/charts/mariadb/templates/slave-statefulset.yaml
-
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
@@ -558,11 +533,9 @@ spec:
                 matchLabels:
                   app: "mariadb"
                   release: "cool-drupal-demo"
-      imagePullSecrets:
-        - name: sec
       containers:
       - name: "mariadb"
-        image: "docker.io/:10.1.36-debian-9"
+        image: "docker.io/bitnami/mariadb:10.1.36-debian-9"
         imagePullPolicy: "IfNotPresent"
         env:
         - name: MARIADB_ROOT_PASSWORD
@@ -646,10 +619,4 @@ spec:
         resources:
           requests:
             storage: "8Gi"
-
----
-# Source: drupal/templates/drupal-pv.yaml
-
----
-# Source: drupal/templates/ingress.yaml
 
