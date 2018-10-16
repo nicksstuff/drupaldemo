@@ -1,7 +1,8 @@
-name: drupal-demo
-version: 3.1.2
 appVersion: 8.6.1
 description: One of the most versatile open source content management systems.
+engine: gotpl
+home: http://www.drupal.org/
+icon: https://bitnami.com/assets/stacks/drupal/img/drupal-stack-220x234.png
 keywords:
 - drupal
 - cms
@@ -10,11 +11,10 @@ keywords:
 - web
 - application
 - php
-home: http://www.drupal.org/
-icon: https://github.com/niklaushirt/drupaldemo/blob/master/helm/charts/icons/icp.png
+maintainers:
+- email: containers@bitnami.com
+  name: Bitnami
+name: drupal-demo
 sources:
 - https://github.com/bitnami/bitnami-docker-drupal
-maintainers:
-- name: Bitnami
-  email: containers@bitnami.com
-engine: gotpl
+version: 3.1.3

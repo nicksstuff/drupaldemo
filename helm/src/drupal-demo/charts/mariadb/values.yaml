@@ -41,28 +41,28 @@ rootUser:
   ## MariaDB admin password
   ## ref: https://github.com/bitnami/bitnami-docker-mariadb#setting-the-root-password-on-first-run
   ##
-  password: root
+  password:
   ## Use existing secret (ignores root, db and replication passwords)
   # existingSecret:
   ##
   ## Option to force users to specify a password. That is required for 'helm upgrade' to work properly.
   ## If it is not force, a random password will be generated.
-  forcePassword: true
+  forcePassword: false
 
 db:
   ## MariaDB username and password
   ## ref: https://github.com/bitnami/bitnami-docker-mariadb#creating-a-database-user-on-first-run
   ##
-  user: drupal
-  password: drupal
+  user:
+  password:
   ## Password is ignored if existingSecret is specified.
   ## Database to create
   ## ref: https://github.com/bitnami/bitnami-docker-mariadb#creating-a-database-on-first-run
   ##
-  name: drupal
+  name: my_database
   ## Option to force users to specify a password. That is required for 'helm upgrade' to work properly.
   ## If it is not force, a random password will be generated.
-  forcePassword: true
+  forcePassword: false
 
 replication:
   ## Enable replication. This enables the creation of replicas of MariaDB. If false, only a
@@ -76,12 +76,12 @@ replication:
   ## MariaDB replication user password
   ## ref: https://github.com/bitnami/bitnami-docker-mariadb#setting-up-a-replication-cluster
   ##
-  password: drupal
+  password:
   ## Password is ignored if existingSecret is specified.
   ##
   ## Option to force users to specify a password. That is required for 'helm upgrade' to work properly.
   ## If it is not force, a random password will be generated.
-  forcePassword: true
+  forcePassword: false
 
 master:
   ## Mariadb Master additional pod annotations
@@ -189,8 +189,7 @@ master:
     failureThreshold: 3
 
 slave:
-  replicas: 2
-
+  replicas: 1
 
   ## Mariadb Slave additional pod annotations
   ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
@@ -281,7 +280,7 @@ slave:
     failureThreshold: 3
 
 metrics:
-  enabled: true
+  enabled: false
   image:
     registry: docker.io
     repository: prom/mysqld-exporter

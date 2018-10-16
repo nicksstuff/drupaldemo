@@ -38,15 +38,34 @@ spec:
           value: "no"
         {{- end }}
         - name: MARIADB_HOST
-          value: {{ template "drupal.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.externalDatabase.port }}
+        {{- if .Values.mariadb.enabled }}
+          value: {{ template "drupal.mariadb.fullname" . }}
+        {{- else }}
+          value: {{ default "" .Values.externalDatabase.host | quote }}
+        {{- end }}
         - name: MARIADB_PORT_NUMBER
           value: "3306"
         - name: DRUPAL_DATABASE_NAME
-          value: {{ default .Release.Name .Values.externalDatabase.database | quote }}
+        {{- if .Values.mariadb.enabled }}
+          value: {{ default "" .Values.mariadb.db.name | quote }}
+        {{- else }}
+          value: {{ default "" .Values.externalDatabase.database | quote }}
+        {{- end }}
         - name: DRUPAL_DATABASE_USER
-          value: {{ default "drupal" .Values.externalDatabase.user | quote }}
+        {{- if .Values.mariadb.enabled }}
+          value: {{ default "" .Values.mariadb.db.user | quote }}
+        {{- else }}
+          value: {{ default "" .Values.externalDatabase.user | quote }}
+        {{- end }}
         - name: DRUPAL_DATABASE_PASSWORD
-          value: {{ default "drupal" .Values.externalDatabase.password | quote }}
+        {{- if .Values.mariadb.enabled }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "drupal.mariadb.fullname" . }}
+              key: mariadb-password
+        {{- else }}
+          value: {{ default "" .Values.externalDatabase.password | quote }}
+        {{- end }}
         {{- if .Values.drupalProfile }}
         - name: DRUPAL_PROFILE
           value: {{ .Values.drupalProfile | quote }}

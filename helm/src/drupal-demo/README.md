@@ -1,13 +1,11 @@
-# IBM Drupal Demo
+# Drupal
 
 [Drupal](https://www.drupal.org/) is one of the most versatile open source content management systems on the market.
-This chart deploys a demo Drupal environemnt to IBM Cloud Private (ICP) or IBM Kubernetes Service (IKS).
-
 
 ## TL;DR;
 
 ```console
-$ helm install drupaldemo/drupal-demo
+$ helm install stable/drupal
 ```
 
 ## Introduction
@@ -28,7 +26,7 @@ Bitnami charts can be used with [Kubeapps](https://kubeapps.com/) for deployment
 To install the chart with the release name `my-release`:
 
 ```console
-$ helm install --name my-release drupaldemo/drupal-demo
+$ helm install --name my-release stable/drupal
 ```
 
 The command deploys Drupal on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -102,7 +100,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 ```console
 $ helm install --name my-release \
   --set drupalUsername=admin,drupalPassword=password,mariadb.mariadbRootPassword=secretpassword \
-    drupaldemo/drupal-demo
+    stable/drupal
 ```
 
 The above command sets the Drupal administrator account username and password to `admin` and `password` respectively. Additionally, it sets the MariaDB `root` user password to `secretpassword`.
@@ -110,7 +108,7 @@ The above command sets the Drupal administrator account username and password to
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-$ helm install --name my-release -f values.yaml drupaldemo/drupal-demo
+$ helm install --name my-release -f values.yaml stable/drupal
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
@@ -134,7 +132,7 @@ imagePullSecrets:
 1. Install the chart
 
 ```console
-helm install --name my-release -f values.yaml drupaldemo/drupal-demo
+helm install --name my-release -f values.yaml stable/drupal
 ```
 
 ## Persistence
@@ -153,7 +151,7 @@ See the [Configuration](#configuration) section to configure the PVC or to disab
 1. Install the chart
 
 ```bash
-$ helm install --name my-release --set persistence.drupal.existingClaim=PVC_NAME drupaldemo/drupal-demo
+$ helm install --name my-release --set persistence.drupal.existingClaim=PVC_NAME stable/drupal
 ```
 
 ### Host path
@@ -169,7 +167,7 @@ $ helm install --name my-release --set persistence.drupal.existingClaim=PVC_NAME
 1. Install the chart
 
     ```bash
-    $ helm install --name my-release --set persistence.drupal.hostPath=/PATH/TO/HOST/MOUNT drupaldemo/drupal-demo
+    $ helm install --name my-release --set persistence.drupal.hostPath=/PATH/TO/HOST/MOUNT stable/drupal
     ```
 
     This will mount the `drupal-data` volume into the `hostPath` directory. The site data will be persisted if the mount path contains valid data, else the site data will be initialized at first launch.
