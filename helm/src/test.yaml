@@ -6,7 +6,7 @@ metadata:
   name: drupalxxx-drupal-demo
   labels:
     app: drupalxxx-drupal-demo
-    chart: drupal-demo-3.1.0
+    chart: drupal-demo-3.1.1
     release: "drupalxxx"
     heritage: "Tiller"
 type: Opaque
@@ -23,7 +23,7 @@ metadata:
   name: drupalxxx-drupal-demo-apache
   labels:
     app: drupalxxx-drupal-demo
-    chart: drupal-demo-3.1.0
+    chart: drupal-demo-3.1.1
     release: "drupalxxx"
     heritage: "Tiller"
 spec:
@@ -40,7 +40,7 @@ metadata:
   name: drupalxxx-drupal-demo-drupal
   labels:
     app: drupalxxx-drupal-demo
-    chart: drupal-demo-3.1.0
+    chart: drupal-demo-3.1.1
     release: "drupalxxx"
     heritage: "Tiller"
 spec:
@@ -57,7 +57,7 @@ metadata:
   name: drupalxxx-drupal-demo
   labels:
     app: drupalxxx-drupal-demo
-    chart: drupal-demo-3.1.0
+    chart: drupal-demo-3.1.1
     release: "drupalxxx"
     heritage: "Tiller"
 spec:
@@ -80,7 +80,7 @@ metadata:
   name: drupalxxx-drupal-demo
   labels:
     app: drupalxxx-drupal-demo
-    chart: drupal-demo-3.1.0
+    chart: drupal-demo-3.1.1
     release: "drupalxxx"
     heritage: "Tiller"
 spec:
@@ -93,7 +93,7 @@ spec:
     metadata:
       labels:
         app: drupalxxx-drupal-demo
-        chart: drupal-demo-3.1.0
+        chart: drupal-demo-3.1.1
         release: "drupalxxx"
     spec:
       containers:

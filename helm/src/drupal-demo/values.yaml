@@ -66,7 +66,7 @@ externalDatabase:
 ##
 mariadb:
   ## Whether to deploy a mariadb server to satisfy the applications database requirements. To use an external database set this to false and configure the externalDatabase parameters
-  enabled: false
+  enabled: true
   ## Disable MariaDB replication
   replication:
     enabled: false
@@ -75,11 +75,11 @@ mariadb:
   ## ref: https://github.com/bitnami/bitnami-docker-mariadb/blob/master/README.md#creating-a-database-user-on-first-run
   ##
   db:
-    name: bitnami_drupal
-    user: bn_drupal
+    name: drupal
+    user: drupal
     ## If the password is not specified, mariadb will generates a random password
     ##
-    # password:
+    password: drupal
 
   ## MariaDB admin password
   ## ref: https://github.com/bitnami/bitnami-docker-mariadb/blob/master/README.md#setting-the-root-password-on-first-run

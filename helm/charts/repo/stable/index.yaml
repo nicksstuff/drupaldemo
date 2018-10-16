@@ -2,7 +2,31 @@ apiVersion: v1
 entries:
   drupal-demo:
   - appVersion: 8.6.1
-    created: 2018-10-16T10:31:09.762396902+02:00
+    created: 2018-10-16T10:41:51.922095446+02:00
+    description: One of the most versatile open source content management systems.
+    digest: 4bd818265ee5a7907707a83267fad9c8cd24e56e2909d3f7aeacbe2e1ec5ac7e
+    engine: gotpl
+    home: http://www.drupal.org/
+    icon: https://github.com/niklaushirt/drupaldemo/blob/master/helm/charts/icons/icp.png
+    keywords:
+    - drupal
+    - cms
+    - blog
+    - http
+    - web
+    - application
+    - php
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    name: drupal-demo
+    sources:
+    - https://github.com/bitnami/bitnami-docker-drupal
+    urls:
+    - https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/repo/stable/drupal-demo-3.1.2.tgz
+    version: 3.1.2
+  - appVersion: 8.6.1
+    created: 2018-10-16T10:41:51.91500144+02:00
     description: One of the most versatile open source content management systems.
     digest: 5b5de7b8422b562416f0f83dad88291cc2e33dc27a792f16403c06e1e5e0d5ae
     engine: gotpl
@@ -26,7 +50,7 @@ entries:
     - https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/repo/stable/drupal-demo-3.1.1.tgz
     version: 3.1.1
   - appVersion: 8.6.1
-    created: 2018-10-16T10:31:09.753432495+02:00
+    created: 2018-10-16T10:41:51.906420147+02:00
     description: One of the most versatile open source content management systems.
     digest: 13123e0b37c19d5d5b203207968814cc490800b16fc113dccae866a7b0dcd309
     engine: gotpl
@@ -49,4 +73,4 @@ entries:
     urls:
     - https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/repo/stable/drupal-demo-3.1.0.tgz
     version: 3.1.0
-generated: 2018-10-16T10:31:09.751275704+02:00
+generated: 2018-10-16T10:41:51.90346578+02:00
