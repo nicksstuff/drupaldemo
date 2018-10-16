@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   drupal:
   - appVersion: 8.6.1
-    created: 2018-10-16T14:06:47.820553028+02:00
+    created: 2018-10-16T14:23:18.676133501+02:00
     description: One of the most versatile open source content management systems.
     digest: 09eb1f302c1b8009424aa68874ddebcaf86fd5040c23d6a2cf2fb59edd1d57a6
     engine: gotpl
@@ -27,33 +27,9 @@ entries:
     version: 2.1.0
   drupal-demo:
   - appVersion: 8.6.1
-    created: 2018-10-16T14:06:47.825827661+02:00
-    description: One of the most versatile open source content management systems.
-    digest: 34f2ee0c651ff72ba6c954d128a423d8d696fb05c6b39f43e531f0e16f88994e
-    engine: gotpl
-    home: http://www.drupal.org/
-    icon: https://bitnami.com/assets/stacks/drupal/img/drupal-stack-220x234.png
-    keywords:
-    - drupal
-    - cms
-    - blog
-    - http
-    - web
-    - application
-    - php
-    maintainers:
-    - email: containers@bitnami.com
-      name: Bitnami
-    name: drupal-demo
-    sources:
-    - https://github.com/bitnami/bitnami-docker-drupal
-    urls:
-    - https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/repo/stable/drupal-demo-2.1.0.tgz
-    version: 2.1.0
-  - appVersion: 8.6.1
-    created: 2018-10-16T14:06:47.82179673+02:00
+    created: 2018-10-16T14:23:18.678164158+02:00
     description: A demo for Drupal on IBM private or public cloud
-    digest: 758c739277d672c28bf04e0f0ea1fcfcd69c53fa0ba37cff06f6474acc0aaa84
+    digest: a649f266cb9fc005ff418307f4d4e086c29fd7ab80c4668d2a81c4a4fb745be3
     engine: gotpl
     home: http://www.drupal.org/
     icon: https://github.com/niklaushirt/drupaldemo/blob/master/helm/charts/icons/icp.png
@@ -73,6 +49,6 @@ entries:
     sources:
     - https://github.com/bitnami/bitnami-docker-drupal
     urls:
-    - https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/repo/stable/drupal-demo-1.0.0.tgz
-    version: 1.0.0
-generated: 2018-10-16T14:06:47.817798617+02:00
+    - https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/repo/stable/drupal-demo-3.1.0.tgz
+    version: 3.1.0
+generated: 2018-10-16T14:23:18.671346618+02:00

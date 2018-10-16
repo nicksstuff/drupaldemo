@@ -328,7 +328,7 @@ spec:
         - name: MARIADB_PORT_NUMBER
           value: "3306"
         - name: DRUPAL_DATABASE_NAME
-          value: "bitnami_drupal"
+          value: "{{- printf "%s-%s" "drupal" .Release.Name | trunc 63 | trimSuffix "-" -}}"
         - name: DRUPAL_DATABASE_USER
           value: "bn_drupal"
         - name: DRUPAL_DATABASE_PASSWORD
@@ -443,7 +443,7 @@ spec:
               name: {{ template "drupal.fullname" . }}-mariadb
               key: mariadb-password
         - name: MARIADB_DATABASE
-          value: "bitnami_drupal"
+          value: "{{- printf "%s-%s" "drupal" .Release.Name | trunc 63 | trimSuffix "-" -}}"
         - name: MARIADB_REPLICATION_MODE
           value: "master"
         - name: MARIADB_REPLICATION_USER
@@ -568,7 +568,7 @@ spec:
               name: {{ template "drupal.fullname" . }}-mariadb
               key: mariadb-password
         - name: MARIADB_DATABASE
-          value: "bitnami_drupal"
+          value: "{{- printf "%s-%s" "drupal" .Release.Name | trunc 63 | trimSuffix "-" -}}"
         - name: MARIADB_REPLICATION_MODE
           value: "slave"
         - name: MARIADB_MASTER_HOST

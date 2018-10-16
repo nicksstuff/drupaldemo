@@ -1,0 +1,17 @@
+## Bitnami Drupal image version
+## ref: https://hub.docker.com/r/bitnami/drupal/tags/
+##
+
+drupalUsername: user
+drupalPassword: test
+drupalEmail: user@example.com
+
+
+db:
+  name: bitnami_drupal
+  user: bn_drupal
+  password: passw0rd
+  rootUser:
+    password: passw0rd
+  replication:
+    password: passw0rd
