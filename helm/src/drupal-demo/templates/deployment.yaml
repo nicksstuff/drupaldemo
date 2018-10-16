@@ -38,11 +38,7 @@ spec:
           value: "no"
         {{- end }}
         - name: MARIADB_HOST
-        {{- if .Values.mariadb.enabled }}
-          value: {{ template "drupal.mariadb.fullname" . }}
-        {{- else }}
-          value: {{ default "" .Values.externalDatabase.host | quote }}
-        {{- end }}
+          value: {{ template "drupal.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.externalDatabase.port }}
         - name: MARIADB_PORT_NUMBER
           value: "3306"
         - name: DRUPAL_DATABASE_NAME
