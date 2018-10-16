@@ -16,3 +16,12 @@ db:
     password: passw0rd
   replication:
     password: passw0rd
+
+image:
+  registry: docker.io
+  dbrepository: bitnami/mariadb
+  dbtag: 10.1.36-debian-9
+  drupalrepository: bitnami/drupal
+  drupaltag: 8.6.1-debian-9
+  pullPolicy: IfNotPresent
+  pullSecrets: sec

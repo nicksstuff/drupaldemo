@@ -1,36 +1,38 @@
 ---
+# Source: drupal-demo/templates/deployment.yaml
+---
 # Source: drupal/charts/mariadb/templates/secrets.yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ template "drupal.fullname" . }}-mariadb
+  name: cool-drupal-demo-mariadb
   labels:
     app: "mariadb"
     chart: mariadb-5.0.4
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
     heritage: "Tiller"
 type: Opaque
 data:
 
-  mariadb-root-password: "{{ .Values.db.rootUser.password | b64enc }}"
-  mariadb-password: "{{ .Values.db.password | b64enc }}"
-  mariadb-replication-password: "{{ .Values.db.replication.password | b64enc }}"
+  mariadb-root-password: "cGFzc3cwcmQ="
+  mariadb-password: "cGFzc3cwcmQ="
+  mariadb-replication-password: "cGFzc3cwcmQ="
 
 ---
 # Source: drupal/templates/secrets.yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ template "drupal.fullname" . }}-drupal
+  name: cool-drupal-demo-drupal
   labels:
-    app: {{ template "drupal.fullname" . }}-drupal
+    app: cool-drupal-demo-drupal
     chart: drupal-2.1.0
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
     heritage: "Tiller"
 type: Opaque
 data:
 
-  drupal-password: "{{ .Values.drupalPassword | b64enc }}"
+  drupal-password: "YWRtaW4="
 
 
 ---
@@ -38,12 +40,12 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "drupal.fullname" . }}-mariadb-master-init-scripts
+  name: cool-drupal-demo-mariadb-master-init-scripts
   labels:
     app: mariadb
     component: "master"
     chart: mariadb-5.0.4
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
     heritage: "Tiller"
 data:
   README.md: |-
@@ -58,12 +60,12 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "drupal.fullname" . }}-mariadb-master
+  name: cool-drupal-demo-mariadb-master
   labels:
     app: mariadb
     component: "master"
     chart: mariadb-5.0.4
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
     heritage: "Tiller"
 data:
   my.cnf: |-
@@ -96,12 +98,12 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "drupal.fullname" . }}-mariadb-slave
+  name: cool-drupal-demo-mariadb-slave
   labels:
     app: mariadb
     component: "slave"
     chart: mariadb-5.0.4
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
     heritage: "Tiller"
 data:
   my.cnf: |-
@@ -134,11 +136,11 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "drupal.fullname" . }}-mariadb-tests
+  name: cool-drupal-demo-mariadb-tests
 data:
   run.sh: |-
     @test "Testing MariaDB is accessible" {
-      mysql -h {{ template "drupal.fullname" . }}-mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e 'show databases;'
+      mysql -h cool-drupal-demo-mariadb -uroot -p$MARIADB_ROOT_PASSWORD -e 'show databases;'
     }
 
 ---
@@ -146,11 +148,11 @@ data:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "drupal.fullname" . }}-drupal-apache
+  name: cool-drupal-demo-drupal-apache
   labels:
-    app: {{ template "drupal.fullname" . }}-drupal
+    app: cool-drupal-demo-drupal
     chart: drupal-2.1.0
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
     heritage: "Tiller"
 spec:
   accessModes:
@@ -163,11 +165,11 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "drupal.fullname" . }}-drupal-drupal
+  name: cool-drupal-demo-drupal-drupal
   labels:
-    app: {{ template "drupal.fullname" . }}-drupal
+    app: cool-drupal-demo-drupal
     chart: drupal-2.1.0
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
     heritage: "Tiller"
 spec:
   accessModes:
@@ -180,12 +182,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "drupal.fullname" . }}-mariadb
+  name: cool-drupal-demo-mariadb
   labels:
     app: "mariadb"
     component: "master"
     chart: mariadb-5.0.4
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
     heritage: "Tiller"
 spec:
   type: ClusterIP
@@ -196,7 +198,7 @@ spec:
   selector:
     app: "mariadb"
     component: "master"
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
 
 ---
 # Source: drupal/charts/mariadb/templates/slave-svc.yaml
@@ -204,12 +206,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "drupal.fullname" . }}-mariadb-slave
+  name: cool-drupal-demo-mariadb-slave
   labels:
     app: "mariadb"
     chart: mariadb-5.0.4
     component: "slave"
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
     heritage: "Tiller"
 spec:
   type: ClusterIP
@@ -220,18 +222,18 @@ spec:
   selector:
     app: "mariadb"
     component: "slave"
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
 
 ---
 # Source: drupal/templates/svc.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "drupal.fullname" . }}-drupal
+  name: cool-drupal-demo-drupal
   labels:
-    app: {{ template "drupal.fullname" . }}-drupal
+    app: cool-drupal-demo-drupal
     chart: drupal-2.1.0
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
     heritage: "Tiller"
 spec:
   type: LoadBalancer
@@ -243,14 +245,14 @@ spec:
     port: 443
     targetPort: https
   selector:
-    app: {{ template "drupal.fullname" . }}-drupal
+    app: cool-drupal-demo-drupal
 
 ---
 # Source: drupal/charts/mariadb/templates/test-runner.yaml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ template "drupal.fullname" . }}-mariadb-test-aovqc"
+  name: "cool-drupal-demo-mariadb-test-aovqc"
   annotations:
     "helm.sh/hook": test-success
 spec:
@@ -267,20 +269,18 @@ spec:
       volumeMounts:
       - mountPath: /tools
         name: tools
-  {{- if .Values.image.pullSecrets }}
   imagePullSecrets:
-    - name: {{ .Values.image.pullSecrets  }}
-  {{- end }}
+    - name: sec
   containers:
     - name: mariadb-test
-        image: "{{ .Values.image.registry }}/{{ .Values.image.dbrepository }}:{{ .Values.image.dbtag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        image: "docker.io/.Values.image.db-repository:10.1.36-debian-9"
+        imagePullPolicy: "IfNotPresent"
       command: ["/tools/bats/bats", "-t", "/tests/run.sh"]
       env:
         - name: MARIADB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ template "drupal.fullname" . }}-mariadb
+              name: cool-drupal-demo-mariadb
               key: mariadb-root-password
       volumeMounts:
       - mountPath: /tests
@@ -291,7 +291,7 @@ spec:
   volumes:
   - name: tests
     configMap:
-      name: {{ template "drupal.fullname" . }}-mariadb-tests
+      name: cool-drupal-demo-mariadb-tests
   - name: tools
     emptyDir: {}
   restartPolicy: Never
@@ -301,60 +301,58 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "drupal.fullname" . }}-drupal
+  name: cool-drupal-demo-drupal
   labels:
-    app: {{ template "drupal.fullname" . }}-drupal
+    app: cool-drupal-demo-drupal
     chart: drupal-2.1.0
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
     heritage: "Tiller"
 spec:
   selector:
     matchLabels:
-      app: {{ template "drupal.fullname" . }}-drupal
-      release: "{{ template "drupal.fullname" . }}"
+      app: cool-drupal-demo-drupal
+      release: "cool-drupal-demo"
   replicas: 1
   template:
     metadata:
       labels:
-        app: {{ template "drupal.fullname" . }}-drupal
+        app: cool-drupal-demo-drupal
         chart: drupal-2.1.0
-        release: "{{ template "drupal.fullname" . }}"
+        release: "cool-drupal-demo"
     spec:
-      {{- if .Values.image.pullSecrets }}
       imagePullSecrets:
-        - name: {{ .Values.image.pullSecrets  }}
-      {{- end }}
+        - name: sec
       containers:
-      - name: {{ template "drupal.fullname" . }}-drupal
-        image: "{{ .Values.image.registry }}/{{ .Values.image.drupalrepository }}:{{ .Values.image.drupaltag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+      - name: cool-drupal-demo-drupal
+        image: "docker.io/bitnami/drupal:8.6.1-debian-9"
+        imagePullPolicy: "IfNotPresent"
         env:
         - name: ALLOW_EMPTY_PASSWORD
           value: "yes"
         - name: MARIADB_HOST
-          value: {{ template "drupal.fullname" . }}-mariadb
+          value: cool-drupal-demo-mariadb
         - name: MARIADB_PORT_NUMBER
           value: "3306"
         - name: DRUPAL_DATABASE_NAME
-          value: "{{- printf "%s-%s" .Values.db.name .Release.Name | trunc 63 | trimSuffix "-" -}}"
+          value: "drupal-cool"
         - name: DRUPAL_DATABASE_USER
-          value: "{{ .Values.db.user }}"
+          value: "db_user"
         - name: DRUPAL_DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ template "drupal.fullname" . }}-mariadb
+              name: cool-drupal-demo-mariadb
               key: mariadb-password
         - name: DRUPAL_PROFILE
           value: "standard"
         - name: DRUPAL_USERNAME
-          value: "{{ .Values.drupalUsername }}"
+          value: "admin"
         - name: DRUPAL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ template "drupal.fullname" . }}-drupal
+              name: cool-drupal-demo-drupal
               key: drupal-password
         - name: DRUPAL_EMAIL
-          value: "{{ .Values.drupalEmail }}"
+          value: "user@example.com"
         ports:
         - name: http
           containerPort: 80
@@ -385,30 +383,30 @@ spec:
       volumes:
       - name: drupal-data
         persistentVolumeClaim:
-          claimName: {{ template "drupal.fullname" . }}-drupal-drupal
+          claimName: cool-drupal-demo-drupal-drupal
       - name: apache-data
         persistentVolumeClaim:
-          claimName: {{ template "drupal.fullname" . }}-drupal-apache
+          claimName: cool-drupal-demo-drupal-apache
 
 ---
 # Source: drupal/charts/mariadb/templates/master-statefulset.yaml
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
-  name: {{ template "drupal.fullname" . }}-mariadb-master
+  name: cool-drupal-demo-mariadb-master
   labels:
     app: "mariadb"
     chart: mariadb-5.0.4
     component: "master"
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
     heritage: "Tiller"
 spec:
   selector:
     matchLabels:
-      release: "{{ template "drupal.fullname" . }}"
+      release: "cool-drupal-demo"
       component: "master"
       app: mariadb
-  serviceName: "{{ template "drupal.fullname" . }}-mariadb-master"
+  serviceName: "cool-drupal-demo-mariadb-master"
   replicas: 1
   updateStrategy:
     type: RollingUpdate
@@ -417,7 +415,7 @@ spec:
       labels:
         app: "mariadb"
         component: "master"
-        release: "{{ template "drupal.fullname" . }}"
+        release: "cool-drupal-demo"
         chart: mariadb-5.0.4
     spec:
       securityContext:
@@ -432,30 +430,28 @@ spec:
               labelSelector:
                 matchLabels:
                   app: "mariadb"
-                  release: "{{ template "drupal.fullname" . }}"
-      {{- if .Values.image.pullSecrets }}
+                  release: "cool-drupal-demo"
       imagePullSecrets:
-        - name: {{ .Values.image.pullSecrets  }}
-      {{- end }}
+        - name: sec
       containers:
       - name: "mariadb"
-        image: "{{ .Values.image.registry }}/{{ .Values.image.dbrepository }}:{{ .Values.image.dbtag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        image: "docker.io/:10.1.36-debian-9"
+        imagePullPolicy: "IfNotPresent"
         env:
         - name: MARIADB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ template "drupal.fullname" . }}-mariadb
+              name: cool-drupal-demo-mariadb
               key: mariadb-root-password
         - name: MARIADB_USER
-          value: "{{ .Values.db.user }}"
+          value: "db_user"
         - name: MARIADB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ template "drupal.fullname" . }}-mariadb
+              name: cool-drupal-demo-mariadb
               key: mariadb-password
         - name: MARIADB_DATABASE
-          value: "{{- printf "%s-%s" .Values.db.name .Release.Name | trunc 63 | trimSuffix "-" -}}"
+          value: "drupal-cool"
         - name: MARIADB_REPLICATION_MODE
           value: "master"
         - name: MARIADB_REPLICATION_USER
@@ -463,7 +459,7 @@ spec:
         - name: MARIADB_REPLICATION_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ template "drupal.fullname" . }}-mariadb
+              name: cool-drupal-demo-mariadb
               key: mariadb-replication-password
         ports:
         - name: mysql
@@ -498,10 +494,10 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: {{ template "drupal.fullname" . }}-mariadb-master
+            name: cool-drupal-demo-mariadb-master
         - name: custom-init-scripts
           configMap:
-            name: {{ template "drupal.fullname" . }}-mariadb-master-init-scripts
+            name: cool-drupal-demo-mariadb-master-init-scripts
   volumeClaimTemplates:
     - metadata:
         name: data
@@ -509,7 +505,7 @@ spec:
           app: "mariadb"
           chart: mariadb-5.0.4
           component: "master"
-          release: "{{ template "drupal.fullname" . }}"
+          release: "cool-drupal-demo"
           heritage: "Tiller"
       spec:
         accessModes:
@@ -524,21 +520,21 @@ spec:
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
-  name: {{ template "drupal.fullname" . }}-mariadb-slave
+  name: cool-drupal-demo-mariadb-slave
   labels:
     app: "mariadb"
     chart: mariadb-5.0.4
     component: "slave"
-    release: "{{ template "drupal.fullname" . }}"
+    release: "cool-drupal-demo"
     heritage: "Tiller"
 spec:
   selector:
     matchLabels:
-      release: "{{ template "drupal.fullname" . }}"
+      release: "cool-drupal-demo"
       component: "slave"
       app: mariadb
-  serviceName: "{{ template "drupal.fullname" . }}-mariadb-slave"
-  replicas: {{ .Values.db.replicas }}
+  serviceName: "cool-drupal-demo-mariadb-slave"
+  replicas: 2
   updateStrategy:
     type: RollingUpdate
   template:
@@ -546,7 +542,7 @@ spec:
       labels:
         app: "mariadb"
         component: "slave"
-        release: "{{ template "drupal.fullname" . }}"
+        release: "cool-drupal-demo"
         chart: mariadb-5.0.4
     spec:
       securityContext:
@@ -561,34 +557,32 @@ spec:
               labelSelector:
                 matchLabels:
                   app: "mariadb"
-                  release: "{{ template "drupal.fullname" . }}"
-      {{- if .Values.image.pullSecrets }}
+                  release: "cool-drupal-demo"
       imagePullSecrets:
-        - name: {{ .Values.image.pullSecrets  }}
-      {{- end }}
+        - name: sec
       containers:
       - name: "mariadb"
-        image: "{{ .Values.image.registry }}/{{ .Values.image.dbrepository }}:{{ .Values.image.dbtag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        image: "docker.io/:10.1.36-debian-9"
+        imagePullPolicy: "IfNotPresent"
         env:
         - name: MARIADB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ template "drupal.fullname" . }}-mariadb
+              name: cool-drupal-demo-mariadb
               key: mariadb-root-password
         - name: MARIADB_USER
-          value: "{{ .Values.db.user }}"
+          value: "db_user"
         - name: MARIADB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ template "drupal.fullname" . }}-mariadb
+              name: cool-drupal-demo-mariadb
               key: mariadb-password
         - name: MARIADB_DATABASE
-          value: "{{- printf "%s-%s" .Values.db.name .Release.Name | trunc 63 | trimSuffix "-" -}}"
+          value: "drupal-cool"
         - name: MARIADB_REPLICATION_MODE
           value: "slave"
         - name: MARIADB_MASTER_HOST
-          value: {{ template "drupal.fullname" . }}-mariadb
+          value: cool-drupal-demo-mariadb
         - name: MARIADB_MASTER_PORT_NUMBER
           value: "3306"
         - name: MARIADB_MASTER_ROOT_USER
@@ -596,14 +590,14 @@ spec:
         - name: MARIADB_MASTER_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ template "drupal.fullname" . }}-mariadb
+              name: cool-drupal-demo-mariadb
               key: mariadb-root-password
         - name: MARIADB_REPLICATION_USER
           value: "replicator"
         - name: MARIADB_REPLICATION_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ template "drupal.fullname" . }}-mariadb
+              name: cool-drupal-demo-mariadb
               key: mariadb-replication-password
         ports:
         - name: mysql
@@ -636,7 +630,7 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: {{ template "drupal.fullname" . }}-mariadb-slave
+            name: cool-drupal-demo-mariadb-slave
   volumeClaimTemplates:
     - metadata:
         name: data
@@ -644,7 +638,7 @@ spec:
           app: "mariadb"
           chart: mariadb-5.0.4
           component: "slave"
-          release: "{{ template "drupal.fullname" . }}"
+          release: "cool-drupal-demo"
           heritage: "Tiller"
       spec:
         accessModes:
@@ -658,3 +652,4 @@ spec:
 
 ---
 # Source: drupal/templates/ingress.yaml
+
