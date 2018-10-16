@@ -108,7 +108,7 @@ spec:
         - name: MARIADB_PORT_NUMBER
           value: "3306"
         - name: DRUPAL_DATABASE_NAME
-          value: "drupal"
+          value: "drupalxxx"
         - name: DRUPAL_DATABASE_USER
           value: "drupal"
         - name: DRUPAL_DATABASE_PASSWORD

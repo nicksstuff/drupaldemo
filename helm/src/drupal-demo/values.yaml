@@ -59,7 +59,7 @@ externalDatabase:
   password: drupal
 
   ## Database name
-  database: drupal
+  database:
 
 ##
 ## MariaDB chart configuration
