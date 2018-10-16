@@ -1,0 +1,28 @@
+apiVersion: v1
+entries:
+  drupal-demo:
+  - appVersion: 8.6.1
+    created: 2018-10-16T08:45:44.247728877+02:00
+    description: One of the most versatile open source content management systems.
+    digest: 13123e0b37c19d5d5b203207968814cc490800b16fc113dccae866a7b0dcd309
+    engine: gotpl
+    home: http://www.drupal.org/
+    icon: https://bitnami.com/assets/stacks/drupal/img/drupal-stack-220x234.png
+    keywords:
+    - drupal
+    - cms
+    - blog
+    - http
+    - web
+    - application
+    - php
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    name: drupal-demo
+    sources:
+    - https://github.com/bitnami/bitnami-docker-drupal
+    urls:
+    - https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/repo/stable/drupal-demo-3.1.0.tgz
+    version: 3.1.0
+generated: 2018-10-16T08:45:44.245532627+02:00
