@@ -25,13 +25,13 @@ drupalProfile: standard
 ## User of the application
 ## ref: https://github.com/bitnami/bitnami-docker-drupal#configuration
 ##
-drupalUsername: admin
+drupalUsername: user
 
 ## Application password
 ## Defaults to a random 10-character alphanumeric string if not set
 ## ref: https://github.com/bitnami/bitnami-docker-drupal#configuration
 ##
-drupalPassword: admin
+# drupalPassword:
 
 ## Admin email
 ## ref: https://github.com/bitnami/bitnami-docker-drupal#configuration
@@ -66,7 +66,7 @@ mariadb:
   enabled: true
   ## Disable MariaDB replication
   replication:
-    enabled: true
+    enabled: false
 
   ## Create a database and a database user
   ## ref: https://github.com/bitnami/bitnami-docker-mariadb/blob/master/README.md#creating-a-database-user-on-first-run
