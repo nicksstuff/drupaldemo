@@ -2,15 +2,16 @@
 ## ref: https://hub.docker.com/r/bitnami/drupal/tags/
 ##
 
-drupalUsername: user
-drupalPassword: test
+drupalUsername: admin
+drupalPassword: admin
 drupalEmail: user@example.com
 
 
 db:
-  name: bitnami_drupal
-  user: bn_drupal
+  name: drupal
+  user: db_user
   password: passw0rd
+  replicas: 2
   rootUser:
     password: passw0rd
   replication:

@@ -1,5 +1,5 @@
 name: drupal-demo
-version: 3.1.0
+version: 3.1.1
 appVersion: 8.6.1
 description: A demo for Drupal on IBM private or public cloud
 keywords:
@@ -12,7 +12,7 @@ keywords:
 - php
 - runtimes
 home: http://www.drupal.org/
-icon: https://github.com/niklaushirt/drupaldemo/blob/master/helm/charts/icons/icp.png
+icon: https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/icons/icp.png
 sources:
 - https://github.com/bitnami/bitnami-docker-drupal
 maintainers:

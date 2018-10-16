@@ -1,38 +1,13 @@
 apiVersion: v1
 entries:
-  drupal:
-  - appVersion: 8.6.1
-    created: 2018-10-16T14:23:18.676133501+02:00
-    description: One of the most versatile open source content management systems.
-    digest: 09eb1f302c1b8009424aa68874ddebcaf86fd5040c23d6a2cf2fb59edd1d57a6
-    engine: gotpl
-    home: http://www.drupal.org/
-    icon: https://bitnami.com/assets/stacks/drupal/img/drupal-stack-220x234.png
-    keywords:
-    - drupal
-    - cms
-    - blog
-    - http
-    - web
-    - application
-    - php
-    maintainers:
-    - email: containers@bitnami.com
-      name: Bitnami
-    name: drupal
-    sources:
-    - https://github.com/bitnami/bitnami-docker-drupal
-    urls:
-    - https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/repo/stable/drupal-2.1.0.tgz
-    version: 2.1.0
   drupal-demo:
   - appVersion: 8.6.1
-    created: 2018-10-16T14:23:18.678164158+02:00
+    created: 2018-10-16T14:32:56.623340141+02:00
     description: A demo for Drupal on IBM private or public cloud
-    digest: a649f266cb9fc005ff418307f4d4e086c29fd7ab80c4668d2a81c4a4fb745be3
+    digest: 209b82604575d9f81a014d1d8bb4ac35654c474c4766271a398650a4f3519e72
     engine: gotpl
     home: http://www.drupal.org/
-    icon: https://github.com/niklaushirt/drupaldemo/blob/master/helm/charts/icons/icp.png
+    icon: https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/icons/icp.png
     keywords:
     - drupal
     - cms
@@ -49,6 +24,6 @@ entries:
     sources:
     - https://github.com/bitnami/bitnami-docker-drupal
     urls:
-    - https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/repo/stable/drupal-demo-3.1.0.tgz
-    version: 3.1.0
-generated: 2018-10-16T14:23:18.671346618+02:00
+    - https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/repo/stable/drupal-demo-3.1.1.tgz
+    version: 3.1.1
+generated: 2018-10-16T14:32:56.621974707+02:00

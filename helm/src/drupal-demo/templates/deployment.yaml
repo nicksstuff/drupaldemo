@@ -328,9 +328,9 @@ spec:
         - name: MARIADB_PORT_NUMBER
           value: "3306"
         - name: DRUPAL_DATABASE_NAME
-          value: "{{- printf "%s-%s" "drupal" .Release.Name | trunc 63 | trimSuffix "-" -}}"
+          value: "{{- printf "%s-%s" .Values.db.name .Release.Name | trunc 63 | trimSuffix "-" -}}"
         - name: DRUPAL_DATABASE_USER
-          value: "bn_drupal"
+          value: "{{ .Values.db.user }}"
         - name: DRUPAL_DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -436,14 +436,14 @@ spec:
               name: {{ template "drupal.fullname" . }}-mariadb
               key: mariadb-root-password
         - name: MARIADB_USER
-          value: "bn_drupal"
+          value: "{{ .Values.db.user }}"
         - name: MARIADB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ template "drupal.fullname" . }}-mariadb
               key: mariadb-password
         - name: MARIADB_DATABASE
-          value: "{{- printf "%s-%s" "drupal" .Release.Name | trunc 63 | trimSuffix "-" -}}"
+          value: "{{- printf "%s-%s" .Values.db.name .Release.Name | trunc 63 | trimSuffix "-" -}}"
         - name: MARIADB_REPLICATION_MODE
           value: "master"
         - name: MARIADB_REPLICATION_USER
@@ -526,7 +526,7 @@ spec:
       component: "slave"
       app: mariadb
   serviceName: "{{ template "drupal.fullname" . }}-mariadb-slave"
-  replicas: 1
+  replicas: {{ .Values.db.replicas }}
   updateStrategy:
     type: RollingUpdate
   template:
@@ -561,14 +561,14 @@ spec:
               name: {{ template "drupal.fullname" . }}-mariadb
               key: mariadb-root-password
         - name: MARIADB_USER
-          value: "bn_drupal"
+          value: "{{ .Values.db.user }}"
         - name: MARIADB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ template "drupal.fullname" . }}-mariadb
               key: mariadb-password
         - name: MARIADB_DATABASE
-          value: "{{- printf "%s-%s" "drupal" .Release.Name | trunc 63 | trimSuffix "-" -}}"
+          value: "{{- printf "%s-%s" .Values.db.name .Release.Name | trunc 63 | trimSuffix "-" -}}"
         - name: MARIADB_REPLICATION_MODE
           value: "slave"
         - name: MARIADB_MASTER_HOST

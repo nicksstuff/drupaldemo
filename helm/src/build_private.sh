@@ -11,7 +11,6 @@ rm ./index.yaml
 #CREATE PACKAGES
 #-----------------------------------------------------------------------------------------------------------------
 helm package drupal-demo
-helm package drupal
 
 
 #CREATE INDEX.YAML
