@@ -24,4 +24,4 @@ image:
   drupalrepository: bitnami/drupal
   drupaltag: 8.6.1-debian-9
   pullPolicy: IfNotPresent
-  pullSecrets: sec
+  pullSecrets:
