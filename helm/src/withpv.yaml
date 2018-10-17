@@ -16,7 +16,6 @@ data:
   mariadb-root-password: "cGFzc3cwcmQ="
   mariadb-password: "cGFzc3cwcmQ="
   mariadb-replication-password: "cGFzc3cwcmQ="
-
 ---
 apiVersion: v1
 kind: Secret
@@ -31,8 +30,6 @@ type: Opaque
 data:
 
   drupal-password: "YWRtaW4="
-
-
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -49,8 +46,6 @@ data:
     You can copy here your custom .sh, .sql or .sql.gz file so they are executed during the first boot of the image.
 
     More info in the [bitnami-docker-mariadb](https://github.com/bitnami/bitnami-docker-mariadb#initializing-a-new-instance) repository.
-
-
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -123,7 +118,6 @@ data:
     port=3306
     socket=/opt/bitnami/mariadb/tmp/mysql.sock
     pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
-
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -155,7 +149,6 @@ spec:
     app: "mariadb"
     component: "master"
     release: "cool-drupal-demo"
-
 ---
 apiVersion: v1
 kind: Service
@@ -177,7 +170,6 @@ spec:
     app: "mariadb"
     component: "slave"
     release: "cool-drupal-demo"
-
 ---
 apiVersion: v1
 kind: Service
@@ -199,7 +191,6 @@ spec:
     targetPort: https
   selector:
     app: cool-drupal-demo-drupal
-
 ---
 apiVersion: v1
 kind: Pod
@@ -245,7 +236,6 @@ spec:
   - name: tools
     emptyDir: {}
   restartPolicy: Never
-
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -439,22 +429,8 @@ spec:
         - name: custom-init-scripts
           configMap:
             name: cool-drupal-demo-mariadb-master-init-scripts
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-        labels:
-          app: "mariadb"
-          chart: mariadb-5.0.4
-          component: "master"
-          release: "cool-drupal-demo"
-          heritage: "Tiller"
-      spec:
-        accessModes:
-          - "ReadWriteOnce"
-        resources:
-          requests:
-            storage: "8Gi"
-
+        - name: "data"
+          emptyDir: {}
 ---
 apiVersion: apps/v1beta1
 kind: StatefulSet
@@ -568,19 +544,6 @@ spec:
         - name: config
           configMap:
             name: cool-drupal-demo-mariadb-slave
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-        labels:
-          app: "mariadb"
-          chart: mariadb-5.0.4
-          component: "slave"
-          release: "cool-drupal-demo"
-          heritage: "Tiller"
-      spec:
-        accessModes:
-          - "ReadWriteOnce"
-        resources:
-          requests:
-            storage: "8Gi"
+        - name: "data"
+          emptyDir: {}
 

@@ -96,7 +96,7 @@ master:
   persistence:
     ## If true, use a Persistent Volume Claim, If false, use emptyDir
     ##
-    enabled: true
+    enabled: false
     # Enable persistence using an existing PVC
     # existingClaim:
     # mountPath:
@@ -194,7 +194,7 @@ slave:
   persistence:
     ## If true, use a Persistent Volume Claim, If false, use emptyDir
     ##
-    enabled: true
+    enabled: false
     # storageClass: "-"
     annotations:
     accessModes:
