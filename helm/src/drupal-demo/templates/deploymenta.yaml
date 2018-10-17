@@ -34,7 +34,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "drupal.fullname" . }}-mariadb-master-init-scripts
   labels:
-    app: {{ template "drupal.fullname" . }}-mariadb-master
+    app: mariadb
     component: "master"
     chart: mariadb-5.0.4
     release: "{{ template "drupal.fullname" . }}"
@@ -50,7 +50,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "drupal.fullname" . }}-mariadb-master
   labels:
-    app: {{ template "drupal.fullname" . }}-mariadb-master
+    app: mariadb
     component: "master"
     chart: mariadb-5.0.4
     release: "{{ template "drupal.fullname" . }}"
@@ -86,7 +86,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "drupal.fullname" . }}-mariadb-slave
   labels:
-    app: {{ template "drupal.fullname" . }}-mariadb-slave
+    app: mariadb
     component: "slave"
     chart: mariadb-5.0.4
     release: "{{ template "drupal.fullname" . }}"
@@ -402,7 +402,7 @@ spec:
     matchLabels:
       release: "{{ template "drupal.fullname" . }}"
       component: "master"
-      app: {{ template "drupal.fullname" . }}-mariadb-master
+      app: mariadb
   serviceName: "{{ template "drupal.fullname" . }}-mariadb-master"
   replicas: 1
   updateStrategy:
@@ -533,7 +533,7 @@ spec:
     matchLabels:
       release: "{{ template "drupal.fullname" . }}"
       component: "slave"
-      app: {{ template "drupal.fullname" . }}-mariadb-slave
+      app: mariadb
   serviceName: "{{ template "drupal.fullname" . }}-mariadb-slave"
   replicas: {{ .Values.db.replicas }}
   updateStrategy:
