@@ -322,7 +322,7 @@ spec:
         - name: ALLOW_EMPTY_PASSWORD
           value: "yes"
         - name: MARIADB_HOST
-          value: {{ template "drupal.fullname" . }}-mariadb
+          value: {{ template "drupal.fullname" . }}-mariadb-master
         - name: MARIADB_PORT_NUMBER
           value: "3306"
         - name: DRUPAL_DATABASE_NAME

@@ -6,7 +6,7 @@ kind: Secret
 metadata:
   name: cool-drupal-demo-mariadb
   labels:
-    app: "mariadb"
+    app: cool-drupal-demo-mariadb-master
     chart: mariadb-5.0.4
     release: "cool-drupal-demo"
     heritage: "Tiller"
@@ -134,7 +134,7 @@ kind: Service
 metadata:
   name: cool-drupal-demo-mariadb
   labels:
-    app: "mariadb"
+    app: cool-drupal-demo-mariadb-master
     component: "master"
     chart: mariadb-5.0.4
     release: "cool-drupal-demo"
@@ -146,7 +146,7 @@ spec:
     port: 3306
     targetPort: mysql
   selector:
-    app: "mariadb"
+    app: cool-drupal-demo-mariadb-master
     component: "master"
     release: "cool-drupal-demo"
 ---
@@ -158,7 +158,7 @@ metadata:
     ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: cool.demo.drupal.com
+  - host: cool.demo.ibm.com
     http:
       paths:
       - backend:
@@ -170,7 +170,7 @@ kind: Service
 metadata:
   name: cool-drupal-demo-mariadb-slave
   labels:
-    app: "mariadb"
+    app: cool-drupal-demo-mariadb-slave
     chart: mariadb-5.0.4
     component: "slave"
     release: "cool-drupal-demo"
@@ -182,7 +182,7 @@ spec:
     port: 3306
     targetPort: mysql
   selector:
-    app: "mariadb"
+    app: cool-drupal-demo-mariadb-slave
     component: "slave"
     release: "cool-drupal-demo"
 ---
@@ -314,7 +314,7 @@ spec:
           httpGet:
             path: /user/login
             port: http
-          initialDelaySeconds: 120
+          initialDelaySeconds: 240
 
         readinessProbe:
           httpGet:
@@ -343,7 +343,7 @@ kind: StatefulSet
 metadata:
   name: cool-drupal-demo-mariadb-master
   labels:
-    app: "mariadb"
+    app: cool-drupal-demo-mariadb-master
     chart: mariadb-5.0.4
     component: "master"
     release: "cool-drupal-demo"
@@ -361,7 +361,7 @@ spec:
   template:
     metadata:
       labels:
-        app: "mariadb"
+        app: cool-drupal-demo-mariadb-master
         component: "master"
         release: "cool-drupal-demo"
         chart: mariadb-5.0.4
@@ -377,7 +377,7 @@ spec:
               topologyKey: kubernetes.io/hostname
               labelSelector:
                 matchLabels:
-                  app: "mariadb"
+                  app: cool-drupal-demo-mariadb-master
                   release: "cool-drupal-demo"
       containers:
       - name: "mariadb"
@@ -413,7 +413,7 @@ spec:
         livenessProbe:
           exec:
             command: ["sh", "-c", "exec mysqladmin status -uroot -p$MARIADB_ROOT_PASSWORD"]
-          initialDelaySeconds: 120
+          initialDelaySeconds: 240
           periodSeconds: 10
           timeoutSeconds: 1
           successThreshold: 1
@@ -452,7 +452,7 @@ kind: StatefulSet
 metadata:
   name: cool-drupal-demo-mariadb-slave
   labels:
-    app: "mariadb"
+    app: cool-drupal-demo-mariadb-slave
     chart: mariadb-5.0.4
     component: "slave"
     release: "cool-drupal-demo"
@@ -470,7 +470,7 @@ spec:
   template:
     metadata:
       labels:
-        app: "mariadb"
+        app: cool-drupal-demo-mariadb-slave
         component: "slave"
         release: "cool-drupal-demo"
         chart: mariadb-5.0.4
@@ -486,7 +486,7 @@ spec:
               topologyKey: kubernetes.io/hostname
               labelSelector:
                 matchLabels:
-                  app: "mariadb"
+                  app: cool-drupal-demo-mariadb-slave
                   release: "cool-drupal-demo"
       containers:
       - name: "mariadb"
@@ -533,7 +533,7 @@ spec:
         livenessProbe:
           exec:
             command: ["sh", "-c", "exec mysqladmin status -uroot -p$MARIADB_ROOT_PASSWORD"]
-          initialDelaySeconds: 120
+          initialDelaySeconds: 240
           periodSeconds: 10
           timeoutSeconds: 1
           successThreshold: 1
@@ -562,3 +562,34 @@ spec:
         - name: "data"
           emptyDir: {}
 
+---
+# Source: drupal-demo/templates/calico.yaml
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cool-drupal-demo-calico
+spec:
+  podSelector:
+    matchLabels:
+      app: cool-drupal-demo-mariadb-master
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: cool-drupal-demo-drupal
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cool-drupal-demo-calico-ingress
+  namespace: dev-namespace
+spec:
+  podSelector:
+    matchLabels:
+      app: cool-drupal-demo-drupal
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels: {}
