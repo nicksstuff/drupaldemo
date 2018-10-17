@@ -190,7 +190,7 @@ metadata:
     ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: {{ .Values.web.ingress }}
+  - host: {{ .Release.Name }}.{{ .Values.web.ingresspostfix }}
     http:
       paths:
       - backend:

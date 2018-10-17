@@ -7,7 +7,7 @@ drupalPassword: admin
 drupalEmail: user@example.com
 
 web:
-  ingress: demo.drupal.com
+  ingresspostfix: demo.drupal.com
 
 db:
   name: drupal
