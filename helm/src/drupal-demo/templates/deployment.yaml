@@ -71,7 +71,7 @@ spec:
           httpGet:
             path: /user/login
             port: http
-          initialDelaySeconds: 30
+          initialDelaySeconds: 300
 
         resources:
           requests:

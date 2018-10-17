@@ -6,7 +6,7 @@
 
 # What’s new in Chart Version 3.2.0
 
-The 3.2.0 version of the Chart installs version 3.1.0.0 of IBM Drupal Demo.  
+The 3.2.0 version of the Chart installs the IBM Drupal Demo.  
 
 # Prerequisites
 1. IBM Cloud Private ort IBM Kubernetes Service are needed to run this Demo
