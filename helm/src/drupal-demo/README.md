@@ -57,18 +57,26 @@ The following table lists the configurable parameters of the Drupal chart and th
 | `drupalPassword`                  | Application password                       | `admin`             |
 | `drupalEmail`                     | Admin email                                | `user@example.com`                                        |
 |
-| `db.rootUser.password`       | MariaDB admin password                     | `passw0rd`                                                     |
+| `web.ingress.postfix`       | Ingress will be the name of the deployment & postfix                     | `demo.ibm.com`                                                     |
+| `web.ingress.security`       | Deploy Calico config to segregate DB and Web App                     | `true`                                                     |
+|
 | `db.name`                 | Database name to create                    | `drupal & the relsae name`                                          |
 | `db.user`                 | Database user to create                    | `db_user`                                               |
 | `db.password`             | Password for the database                  | `passw0rd`            |
 | `db.replicas`             | Number of Slave replicas                 | `2`            |
-| `db.replica.password`             | Replication password              | `passw0rd`            |
+| `db.rootUser.password`       | MariaDB admin password                     | `passw0rd`                                                     |
+| `db.replication.password`             | Replication password              | `passw0rd`            |
+|
 | `image.registry`                  | Drupal image registry                      | `docker.io`                                               |
 | `image.drupalrepository`                | Drupal Image name                          | `bitnami/drupal`                                          |
 | `image.drupaltag`                       | Drupal Image tag                           | `8.6.1-debian-9`                                               |
 | `image.dbrepository`                | MariaDB Image name                          | `bitnami/mariadb`                                          |
 | `image.dbtag`                       | MariaDB Image tag                           | `10.1.36-debian-9`                                               |
 | `image.pullPolicy`                | Drupal image pull policy                   | `Always` if `imageTag` is `latest`, else `IfNotPresent`   |
+| `image.pullSecrets`                | Pull Secret for registry if needed                   | empty   |
+|
+| `persistence.enabled`                  | Create Persistent Volume Claims in order to persist data                     | `false`                                               |
+
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
