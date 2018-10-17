@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   drupal-demo:
   - appVersion: 8.6.1
-    created: 2018-10-17T10:31:25.981725194+02:00
+    created: 2018-10-17T10:51:52.683927225+02:00
     description: A demo for Drupal on IBM private or public cloud
     digest: 58531d521a06f23096650292fd06eec3f012f1495392e4b25218ba46bc123a34
     engine: gotpl
@@ -26,4 +26,4 @@ entries:
     urls:
     - https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/repo/stable/drupal-demo-3.1.6.tgz
     version: 3.1.6
-generated: 2018-10-17T10:31:25.980141129+02:00
+generated: 2018-10-17T10:51:52.678193808+02:00
