@@ -1,0 +1,23 @@
+Note: It may take some time for Drupal to initialize, please be patient.
+You can monitor the status of the pods with the following command:
+  kubectl get -n {{ .Release.Namespace }} pods
+
+To access the UI:
+  export SERVICE_PORT=$(kubectl get service -n services {{ template "drupal.fullname" . }}-drupal -o jsonpath='-{.spec.ports[0].nodePort}' --namespace {{ .Release.Namespace }})
+  echo https://\<ICP_PROXY_IP\>:$SERVICE_PORT
+
+If you use the Ingress you can block direct (NodePort or LoadBalancer) access with this configuration:
+
+  apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    name: {{ template "drupal.fullname" . }}-calico-ingress
+    namespace: {{ .Release.Namespace }}
+  spec:
+    podSelector:
+      matchLabels:
+        app: {{ template "drupal.fullname" . }}-drupal
+    ingress:
+      - from:
+        - namespaceSelector:
+            matchLabels: {}

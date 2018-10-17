@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "drupal.fullname" . }}-mariadb-master
+  labels:
+    app: {{ template "drupal.fullname" . }}-mariadb-master
+    component: "master"
+    chart: mariadb-5.0.4
+    release: "{{ template "drupal.fullname" . }}"
+    heritage: "Tiller"
+spec:
+  type: ClusterIP
+  ports:
+  - name: mysql
+    port: 3306
+    targetPort: mysql
+  selector:
+    app: {{ template "drupal.fullname" . }}-mariadb-master
+    component: "master"
+    release: "{{ template "drupal.fullname" . }}"
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "drupal.fullname" . }}-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: {{ .Release.Name }}.{{ .Values.web.ingress.postfix }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ template "drupal.fullname" . }}-drupal
+          servicePort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "drupal.fullname" . }}-mariadb-slave
+  labels:
+    app: {{ template "drupal.fullname" . }}-mariadb-slave
+    chart: mariadb-5.0.4
+    component: "slave"
+    release: "{{ template "drupal.fullname" . }}"
+    heritage: "Tiller"
+spec:
+  type: ClusterIP
+  ports:
+  - name: mysql
+    port: 3306
+    targetPort: mysql
+  selector:
+    app: {{ template "drupal.fullname" . }}-mariadb-slave
+    component: "slave"
+    release: "{{ template "drupal.fullname" . }}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "drupal.fullname" . }}-drupal
+  labels:
+    app: {{ template "drupal.fullname" . }}-drupal
+    chart: drupal-2.1.0
+    release: "{{ template "drupal.fullname" . }}"
+    heritage: "Tiller"
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+  - name: https
+    port: 443
+    targetPort: https
+  selector:
+    app: {{ template "drupal.fullname" . }}-drupal

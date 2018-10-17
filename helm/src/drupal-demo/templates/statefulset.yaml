@@ -1,0 +1,267 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: {{ template "drupal.fullname" . }}-mariadb-master
+  labels:
+    app: {{ template "drupal.fullname" . }}-mariadb-master
+    chart: mariadb-5.0.4
+    component: "master"
+    release: "{{ template "drupal.fullname" . }}"
+    heritage: "Tiller"
+spec:
+  selector:
+    matchLabels:
+      release: "{{ template "drupal.fullname" . }}"
+      component: "master"
+      app: {{ template "drupal.fullname" . }}-mariadb-master
+  serviceName: "{{ template "drupal.fullname" . }}-mariadb-master"
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: {{ template "drupal.fullname" . }}-mariadb-master
+        component: "master"
+        release: "{{ template "drupal.fullname" . }}"
+        chart: mariadb-5.0.4
+    spec:
+      securityContext:
+        runAsUser: 1001
+        fsGroup: 1001
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  app: {{ template "drupal.fullname" . }}-mariadb-master
+                  release: "{{ template "drupal.fullname" . }}"
+      {{- if .Values.image.pullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecrets  }}
+      {{- end }}
+      containers:
+      - name: "mariadb"
+        image: "{{ .Values.image.registry }}/{{ .Values.image.dbrepository }}:{{ .Values.image.dbtag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        env:
+        - name: MARIADB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "drupal.fullname" . }}-mariadb
+              key: mariadb-root-password
+        - name: MARIADB_USER
+          value: "{{ .Values.db.user }}"
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "drupal.fullname" . }}-mariadb
+              key: mariadb-password
+        - name: MARIADB_DATABASE
+          value: "{{- printf "%s-%s" .Values.db.name .Release.Name | trunc 63 | trimSuffix "-" -}}"
+        - name: MARIADB_REPLICATION_MODE
+          value: "master"
+        - name: MARIADB_REPLICATION_USER
+          value: "replicator"
+        - name: MARIADB_REPLICATION_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "drupal.fullname" . }}-mariadb
+              key: mariadb-replication-password
+        ports:
+        - name: mysql
+          containerPort: 3306
+        livenessProbe:
+          exec:
+            command: ["sh", "-c", "exec mysqladmin status -uroot -p$MARIADB_ROOT_PASSWORD"]
+          initialDelaySeconds: 120
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command: ["sh", "-c", "exec mysqladmin status -uroot -p$MARIADB_ROOT_PASSWORD"]
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        resources:
+          {}
+
+        volumeMounts:
+        - name: data
+          mountPath: /bitnami/mariadb
+        - name: custom-init-scripts
+          mountPath: /docker-entrypoint-initdb.d
+        - name: config
+          mountPath: /opt/bitnami/mariadb/conf/my.cnf
+          subPath: my.cnf
+      volumes:
+        - name: config
+          configMap:
+            name: {{ template "drupal.fullname" . }}-mariadb-master
+        - name: custom-init-scripts
+          configMap:
+            name: {{ template "drupal.fullname" . }}-mariadb-master-init-scripts
+{{- if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels:
+          app: {{ template "drupal.fullname" . }}-mariadb-master
+          chart: mariadb-5.0.4
+          component: "master"
+          release: "{{ template "drupal.fullname" . }}"
+          heritage: "Tiller"
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
+{{- else }}
+        - name: "data"
+          emptyDir: {}
+{{- end }}
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: {{ template "drupal.fullname" . }}-mariadb-slave
+  labels:
+    app: {{ template "drupal.fullname" . }}-mariadb-slave
+    chart: mariadb-5.0.4
+    component: "slave"
+    release: "{{ template "drupal.fullname" . }}"
+    heritage: "Tiller"
+spec:
+  selector:
+    matchLabels:
+      release: "{{ template "drupal.fullname" . }}"
+      component: "slave"
+      app: {{ template "drupal.fullname" . }}-mariadb-slave
+  serviceName: "{{ template "drupal.fullname" . }}-mariadb-slave"
+  replicas: {{ .Values.db.replicas }}
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: {{ template "drupal.fullname" . }}-mariadb-slave
+        component: "slave"
+        release: "{{ template "drupal.fullname" . }}"
+        chart: mariadb-5.0.4
+    spec:
+      securityContext:
+        runAsUser: 1001
+        fsGroup: 1001
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  app: {{ template "drupal.fullname" . }}-mariadb-slave
+                  release: "{{ template "drupal.fullname" . }}"
+      {{- if .Values.image.pullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecrets  }}
+      {{- end }}
+      containers:
+      - name: "mariadb"
+        image: "{{ .Values.image.registry }}/{{ .Values.image.dbrepository }}:{{ .Values.image.dbtag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        env:
+        - name: MARIADB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "drupal.fullname" . }}-mariadb
+              key: mariadb-root-password
+        - name: MARIADB_USER
+          value: "{{ .Values.db.user }}"
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "drupal.fullname" . }}-mariadb
+              key: mariadb-password
+        - name: MARIADB_DATABASE
+          value: "{{- printf "%s-%s" .Values.db.name .Release.Name | trunc 63 | trimSuffix "-" -}}"
+        - name: MARIADB_REPLICATION_MODE
+          value: "slave"
+        - name: MARIADB_MASTER_HOST
+          value: {{ template "drupal.fullname" . }}-mariadb-master
+        - name: MARIADB_MASTER_PORT_NUMBER
+          value: "3306"
+        - name: MARIADB_MASTER_ROOT_USER
+          value: "root"
+        - name: MARIADB_MASTER_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "drupal.fullname" . }}-mariadb
+              key: mariadb-root-password
+        - name: MARIADB_REPLICATION_USER
+          value: "replicator"
+        - name: MARIADB_REPLICATION_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "drupal.fullname" . }}-mariadb
+              key: mariadb-replication-password
+        ports:
+        - name: mysql
+          containerPort: 3306
+        livenessProbe:
+          exec:
+            command: ["sh", "-c", "exec mysqladmin status -uroot -p$MARIADB_ROOT_PASSWORD"]
+          initialDelaySeconds: 240
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command: ["sh", "-c", "exec mysqladmin status -uroot -p$MARIADB_ROOT_PASSWORD"]
+          initialDelaySeconds: 120
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        resources:
+          {}
+
+        volumeMounts:
+        - name: data
+          mountPath: /bitnami/mariadb
+        - name: config
+          mountPath: /opt/bitnami/mariadb/conf/my.cnf
+          subPath: my.cnf
+      volumes:
+        - name: config
+          configMap:
+            name: {{ template "drupal.fullname" . }}-mariadb-slave
+{{- if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels:
+          app: {{ template "drupal.fullname" . }}-mariadb-slave
+          chart: mariadb-5.0.4
+          component: "slave"
+          release: "{{ template "drupal.fullname" . }}"
+          heritage: "Tiller"
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
+{{- else }}
+        - name: "data"
+          emptyDir: {}
+{{- end }}

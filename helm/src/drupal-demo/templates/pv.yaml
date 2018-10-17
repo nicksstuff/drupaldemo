@@ -1,0 +1,35 @@
+{{- if .Values.persistence.enabled }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "drupal.fullname" . }}-drupal-apache
+  labels:
+    app: {{ template "drupal.fullname" . }}-drupal
+    chart: drupal-2.1.0
+    release: "{{ template "drupal.fullname" . }}"
+    heritage: "Tiller"
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "1Gi"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "drupal.fullname" . }}-drupal-drupal
+  labels:
+    app: {{ template "drupal.fullname" . }}-drupal
+    chart: drupal-2.1.0
+    release: "{{ template "drupal.fullname" . }}"
+    heritage: "Tiller"
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "8Gi"
+{{- end }}
+---
