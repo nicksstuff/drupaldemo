@@ -2,7 +2,32 @@ apiVersion: v1
 entries:
   drupal-demo:
   - appVersion: 8.6.1
-    created: 2018-10-17T10:01:24.978512626+02:00
+    created: 2018-10-17T10:05:05.536045137+02:00
+    description: A demo for Drupal on IBM private or public cloud
+    digest: 680e10a0b3d5f63114edc092928c861a7974101fbc5bb62f0a2cee0fdfa58400
+    engine: gotpl
+    home: http://www.drupal.org/
+    icon: https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/icons/icp.png
+    keywords:
+    - drupal
+    - cms
+    - blog
+    - http
+    - web
+    - application
+    - php
+    - runtime
+    maintainers:
+    - email: nikh@ch.ibm.com
+      name: Niklaus Hirt
+    name: drupal-demo
+    sources:
+    - https://github.com/bitnami/bitnami-docker-drupal
+    urls:
+    - https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/repo/stable/drupal-demo-3.1.5.tgz
+    version: 3.1.5
+  - appVersion: 8.6.1
+    created: 2018-10-17T10:05:05.534541004+02:00
     description: A demo for Drupal on IBM private or public cloud
     digest: db2d03d82dd3440eb1d7f8e9dfc16cfea36bac558daa2b38136f7dad898c1f2f
     engine: gotpl
@@ -26,4 +51,4 @@ entries:
     urls:
     - https://raw.githubusercontent.com/niklaushirt/drupaldemo/master/helm/charts/repo/stable/drupal-demo-3.1.4.tgz
     version: 3.1.4
-generated: 2018-10-17T10:01:24.97662785+02:00
+generated: 2018-10-17T10:05:05.531477051+02:00
