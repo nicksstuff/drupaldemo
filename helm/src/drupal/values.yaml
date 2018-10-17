@@ -142,7 +142,7 @@ ingress:
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
 persistence:
-  enabled: true
+  enabled: false
   apache:
     ## apache data Persistent Volume Storage Class
     ## If defined, storageClassName: <storageClass>
