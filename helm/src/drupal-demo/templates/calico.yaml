@@ -17,6 +17,20 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
+  name: {{ template "drupal.fullname" . }}-calico-m-s
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ template "drupal.fullname" . }}-mariadb-master
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+                app: {{ template "drupal.fullname" . }}-mariadb-slave
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
   name: {{ template "drupal.fullname" . }}-calico-ingress
   namespace: dev-namespace
 spec:
